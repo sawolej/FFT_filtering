@@ -45,6 +45,6 @@ def filter_frequency(orig, which='low'):
     else:
         filtered_spectrum = analyse.gaussian_highpass(FFT_spectrum, 1)
     filtered = analyse.reverse_FFT(filtered_spectrum)
-    analyse.gimme_noise(orig, filtered)
+    
 
     return filtered

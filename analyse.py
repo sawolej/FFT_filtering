@@ -182,8 +182,9 @@ def FFT(data):
     plt.imshow(np.log(np.abs(F2D_przesuniecie)), cmap='gray')
     plt.colorbar()
     plt.title('Spektrum amplitudy')
-    plt.savefig(os.path.join("pics", 'FFT.png'))
-    plt.show()
+    #plt.savefig(os.path.join("pics", 'FFT.png'))
+    #plt.show()
+    plt.close()
 
     return F2D_przesuniecie
 
@@ -208,7 +209,7 @@ def filter_frequency(F2D_shifted, d, r_block, direction='horizontal'):
     plt.imshow(np.log(np.abs(F2D_shifted * mask)), cmap='gray')
     plt.colorbar()
     plt.title('filtered spectrum')
-    plt.savefig(os.path.join("pics", 'filtered_spectrum.png'))
+    #plt.savefig(os.path.join("pics", 'filtered_spectrum.png'))
     # plt.show()
     plt.close()
     return F2D_shifted * mask
@@ -223,8 +224,9 @@ def reverse_FFT(filtered_F2D_shifted):
     plt.imshow(reconstructed_image_real, cmap='gray')
     plt.colorbar()
     plt.title('filtered reverse FFT')
-    plt.savefig(os.path.join("pics", 'reverseFiltered.png'))
-    plt.show()
+    plt.savefig(os.path.join("pics", 'filtered.png'))
+    #plt.show()
+    plt.close()
 
     return reconstructed_image_real
 
@@ -283,8 +285,9 @@ def find_pixels_below_threshold(F2D_shifted, percentage=100):
     plt.imshow(np.log(np.abs(F2D_shifted)), cmap='gray')
     plt.colorbar()
     plt.title('dots w func1')
-    plt.savefig(os.path.join("pics", 'dotsFunc1.png'))
-    plt.show()
+    #plt.savefig(os.path.join("pics", 'dotsFunc1.png'))
+    #plt.show()
+    plt.close()
 
     return list(zip(coords[0], coords[1]))
 
@@ -300,8 +303,9 @@ def filter_pixels_by_coordinates(data, coordinates):
     plt.imshow(np.log(np.abs(filtered_data)), cmap='gray')
     plt.colorbar()
     plt.title('dots dots')
-    plt.savefig(os.path.join("pics", 'dotsDots.png'))
-    plt.show()
+    #plt.savefig(os.path.join("pics", 'dotsDots.png'))
+    #plt.show()
+    plt.close()
 
 
     return filtered_data
@@ -326,7 +330,9 @@ def filter_dark_spots(F2D_shifted, orig):
     plt.subplot(1, 2, 2)
     plt.imshow(np.log(np.abs(F2D_shifted) + 1), cmap='gray')
     plt.title('Przefiltrowane Spektrum Amplitudy')
-    plt.show()
+    #plt.show()
+    plt.close()
+
     plt.savefig(os.path.join("pics", 'darksFilterFFTSpectrum.png'))
 
     return F2D_shifted
@@ -359,7 +365,8 @@ def gaussian_lowpass(data, cutoff_frequency= None):
     plt.imshow(np.log(np.abs(fshift) + 1), cmap='gray')
     plt.title('Dane po zastosowaniu maski Gaussowskiej')
 
-    plt.show()
+    #plt.show()
+    plt.close()
 
     return fshift
 
@@ -390,7 +397,8 @@ def gaussian_highpass(data, cutoff_frequency=None):
     plt.imshow(np.log(np.abs(fshift) + 1), cmap='gray')
     plt.title('Dane po zastosowaniu maski Gaussowskiej')
 
-    plt.show()
+    #plt.show()
+    plt.close()
 
     return fshift
 
@@ -447,12 +455,12 @@ def gimme_noise(orig, filtered):
     plt.imshow(orig, cmap='gray')
     plt.colorbar()
     plt.title('original')
-    plt.show()
+    #plt.show()
 
     plt.imshow(filtered, cmap='gray')
     plt.colorbar()
     plt.title('filtered')
-    plt.show()
+    # plt.show()
 
 
     plt.figure(figsize=(12, 6))
@@ -470,7 +478,9 @@ def gimme_noise(orig, filtered):
     plt.imshow(np.abs(nois), cmap='gray')
     plt.title('Szum')
     plt.savefig(os.path.join('pics', 'noises.png'), transparent=True)
-    plt.show()
+    #plt.show()
+    plt.close()
+
     signal_mean = np.std(orig)
     noise_std = np.std(filtered)
 
@@ -513,13 +523,13 @@ def cut_me(data):
     data_uint8 = (data * 255).astype(np.uint8)
     assert data_uint8.dtype == np.uint8, "Data type is not uint8"
 
-    _, binary = cv2.threshold(data_uint8, 220, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(data_uint8, 200, 210, cv2.THRESH_BINARY)
 
     # Closing operation
     kernel = np.ones((5, 5), np.uint8)
     closing = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
 
-    edges = cv2.Canny(closing, 100, 200, apertureSize=3)
+    edges = cv2.Canny(closing, 180, 200, apertureSize=7)
 
     edge_points_per_row = np.sum(edges != 0, axis=1)
 
@@ -548,13 +558,13 @@ def cut_me(data):
     axs[0].set_title('Original Data')
 
     axs[1].imshow(edges, cmap='binary_r')
-    axs[1].set_title('Edges')
+    axs[1].set_title('debug info')
 
     axs[2].imshow(data_with_lines, cmap='gray')
     axs[2].set_title('Data with Lines')
     plt.savefig(os.path.join("pics", 'objectisolate.png'))
 
-    plt.show()
+    #plt.show()
 
     rows, _ = data.shape
     up = min(two_largest_indices) - 1
@@ -605,7 +615,7 @@ def adapt_filter(data):
     plt.imshow(result, cmap='gray')
     plt.title('Filtered Data')
 
-    plt.show()
+    #plt.show()
 
     return result
 
@@ -626,8 +636,10 @@ def cut_me_harder(up, dp, data):
     plt.imshow(trimmed_dataDP, cmap='gray')
     plt.title('Przefiltrowane Spektrum Amplitudy')
 
-    plt.savefig('darksFilterFFTSpectrum.png')
-    plt.show()
+    #plt.savefig('darksFilterFFTSpectrum.png')
+    #plt.show()
+    plt.close()
+
 
     if up > dp:
         return trimmed_dataUP, trimmed_dataDP
@@ -869,6 +881,7 @@ def experimantal_cut(data):
     plt.tight_layout()
     plt.savefig(os.path.join('pics', 'cuttmme.pdf'), transparent=True)
 
-    plt.show()
+    #plt.show()
+    plt.close()
 
     return result / 255.0, orig_edges, result
