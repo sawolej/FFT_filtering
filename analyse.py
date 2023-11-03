@@ -523,7 +523,7 @@ def cut_me(data):
     data_uint8 = (data * 255).astype(np.uint8)
     assert data_uint8.dtype == np.uint8, "Data type is not uint8"
 
-    _, binary = cv2.threshold(data_uint8, 200, 210, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(data_uint8, 200, 220, cv2.THRESH_BINARY)
 
     # Closing operation
     kernel = np.ones((5, 5), np.uint8)

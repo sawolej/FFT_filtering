@@ -9,7 +9,7 @@ import filters
 def main():
     parser = argparse.ArgumentParser(description="Get some data and images")
     parser.add_argument("-f", "--file", required=True, help="Path to the .mdma file")
-    parser.add_argument("-p", "--parameter", default="imagMreal",
+    parser.add_argument("-p", "--parameter", default="phase",
                         choices=["real", "imag", "magnitude", "phase", "phaseMreal", "imagMreal"],
                         help="Select the parameter to use: real_data, imag_data, magnitude, phase, phase filtered by real, imag filtered by real. Default is imagMreal (imag filtered by real).")
 

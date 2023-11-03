@@ -3,7 +3,8 @@ import numpy as np
 
 
 def filter_horizontal_freq(orig):
-    trimmedData1, trimmedData2 = analyse.cut_me(orig)
+
+    trimmedData1, trimmedData2 = analyse.cut_me(orig )
     merged_data = np.vstack((trimmedData1, trimmedData2))
 
     # first FFT
